@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nginx + JavaScript 演示</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      line-height: 1.6;
+    }
+    .container {
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      padding: 20px;
+      margin-top: 20px;
+    }
+    button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    pre {
+      background-color: #f5f5f5;
+      padding: 10px;
+      border-radius: 4px;
+      overflow-x: auto;
+    }
+  </style>
+</head>
+<body>
+  <h1>Nginx + JavaScript 演示</h1>
+  
+  <div class="container">
+    <h2>前端JavaScript</h2>
+    <p>这个页面使用前端JavaScript发送API请求到由Nginx代理的Node.js服务器。</p>
+    <button id="fetchButton">获取API数据</button>
+    <div id="result"></div>
+  </div>
+
+  <script>
+    document.getElementById('fetchButton').addEventListener('click', async () => {
+      const resultElement = document.getElementById('result');
+      resultElement.innerHTML = '加载中...';
+      
+      try {
+        const response = await fetch('/api/info');
+        const data = await response.json();
+        
+        resultElement.innerHTML = `
+          <h3>API响应:</h3>
+          <pre>${JSON.stringify(data, null, 2)}</pre>
+        `;
+      } catch (error) {
+        resultElement.innerHTML = `<p style="color: red;">错误: ${error.message}</p>`;
+      }
+    });
+  </script>
+</body>
+</html> 

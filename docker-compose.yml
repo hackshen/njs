@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+  # Node.js 应用
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: node-app
+    restart: unless-stopped
+    networks:
+      - app-network
+
+  # 支持NJS的Nginx服务
+  nginx:
+    build:
+      context: .
+      dockerfile: nginx.Dockerfile
+    container_name: nginx-njs-server
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    depends_on:
+      - app
+    networks:
+      - app-network
+    volumes:
+      # 可选：将NJS脚本挂载为卷，以便动态更新（开发环境）
+      - ./nginx/njs-example:/etc/nginx/njs-scripts-dev
+
+networks:
+  app-network:
+    driver: bridge 
