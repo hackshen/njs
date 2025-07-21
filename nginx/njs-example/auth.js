@@ -7,6 +7,8 @@ function basicAuth(r) {
     
     if (!auth || !auth.startsWith('Basic ')) {
         r.headersOut['Content-Type'] = 'text/html; charset=utf-8';
+        // 添加WWW-Authenticate头，触发浏览器认证弹窗
+        r.headersOut['WWW-Authenticate'] = 'Basic realm="NJS认证示例"';
         r.return(401, '<html><body><h2>认证失败</h2><p>需要身份验证</p></body></html>');
         return;
     }
