@@ -25,8 +25,10 @@ services:
     networks:
       - app-network
     volumes:
-      # 可选：将NJS脚本挂载为卷，以便动态更新（开发环境）
-      - ./nginx/njs-example:/etc/nginx/njs-scripts-dev
+      # 将NJS脚本挂载为卷，以便动态更新（开发环境）
+      - ./nginx/njs-example:/etc/nginx/njs-scripts
+      # 挂载Nginx配置文件
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
 
 networks:
   app-network:
