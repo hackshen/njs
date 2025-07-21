@@ -3,7 +3,7 @@
 // 一个简单的HTTP请求处理函数
 function hello(r) {
     r.headersOut['Content-Type'] = 'text/html; charset=utf-8';
-    r.return(200, "<html><body><h1>你好，这是NJS脚本返回的内容！</h1><p>NJS示例演示</p></body></html>");
+    r.return(200, "<html><body><h1>你好，这是NJS脚本返回的内容！</h1><p>NJS示例演示</p><p>当前时间: " + new Date().toISOString() + "</p></body></html>");
 }
 
 // 返回请求信息

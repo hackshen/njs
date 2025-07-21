@@ -60,9 +60,18 @@
 docker compose up -d
 ```
 
-### 构建和重新部署
+### 开发环境
 
-如果修改了配置或代码，使用以下命令重新构建和部署：
+项目配置了卷挂载，使您可以在不重建容器的情况下开发：
+
+```bash
+# 修改NJS脚本或配置文件后，只需重启Nginx容器
+docker restart nginx-njs-server
+```
+
+### 生产环境部署
+
+如果需要完全重新构建容器（例如添加新依赖或首次部署）：
 
 ```bash
 docker compose down && docker compose build --no-cache && docker compose up -d
@@ -125,6 +134,11 @@ NJS是Nginx的一个模块，允许使用JavaScript直接在Nginx中处理请求
 - 添加额外的安全头
 - 添加更多NJS功能
 
+修改后只需重启Nginx容器即可生效：
+```bash
+docker restart nginx-njs-server
+```
+
 ### Node.js应用
 
 修改`app/app.js`可以：
@@ -136,12 +150,14 @@ NJS是Nginx的一个模块，允许使用JavaScript直接在Nginx中处理请求
 
 ## 开发与调试
 
-### NJS脚本开发
-1. 修改`nginx/njs-example/`目录下的JavaScript文件
-2. 重启Nginx容器或使用卷挂载进行实时更新：
-   ```bash
-   docker restart nginx-njs-server
-   ```
+### 优化的开发工作流
+
+项目配置了卷挂载，使得开发更加高效：
+
+1. **修改NJS脚本**：直接编辑 `nginx/njs-example/` 目录下的文件
+2. **修改Nginx配置**：直接编辑 `nginx/default.conf` 文件
+3. **应用更改**：运行 `docker restart nginx-njs-server` 即可看到更改效果
+4. **无需重新构建**：由于使用卷挂载，无需每次修改都重建整个容器
 
 ### 常见问题排查
 - 检查Nginx日志：`docker logs nginx-njs-server`
